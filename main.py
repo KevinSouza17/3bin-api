@@ -1,17 +1,26 @@
-# main.py
-from http.client import HTTPException
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import Base, engine, get_db
 from models import ProdutoDB
 from schemas import ProdutoCreate, ProdutoResponse
 
-Base.metadata.create_all(bind=engine) # cria as tabelas, se ainda não existirem
+
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],          # em produção, restringir para o domínio real do front-end
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
+
 
 @app.get('/produtos', response_model=list[ProdutoResponse])
 def listar_produtos(db: Session = Depends(get_db)):
- return db.query(ProdutoDB).all()
+    return db.query(ProdutoDB).all()
 
 @app.post('/produtos', response_model=ProdutoResponse, status_code=201)
 def criar_produto(produto: ProdutoCreate, db: Session = Depends(get_db)):
@@ -19,7 +28,7 @@ def criar_produto(produto: ProdutoCreate, db: Session = Depends(get_db)):
     db.add(novo_produto)
     db.commit()
     db.refresh(novo_produto)
-    return novo_produto 
+    return novo_produto
 
 @app.get('/produtos/{produto_id}', response_model=ProdutoResponse)
 def obter_produto(produto_id: int, db: Session = Depends(get_db)):
