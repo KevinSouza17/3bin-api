@@ -2,7 +2,7 @@
 from pydantic import BaseModel, ConfigDict
 
 
-
+# ---------- Produto ----------
 class ProdutoBase(BaseModel):
     nome: str
     preco: float
@@ -19,19 +19,19 @@ class ProdutoResponse(ProdutoBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-
-# class LivroBase(BaseModel):
-#     titulo: str
-#     autor: str
-#     ano_publicacao: int
-#     preco: float
-
-
-# class LivroCreate(LivroBase):
-#     pass
+# ---------- Livro ----------
+class LivroBase(BaseModel):
+    titulo: str
+    autor: str
+    ano_publicacao: int
+    preco: float
 
 
-# class LivroResponse(LivroBase):
-#     id: int
+class LivroCreate(LivroBase):
+    pass
 
-#     model_config = ConfigDict(from_attributes=True)
+
+class LivroResponse(LivroBase):
+    id: int
+
+    model_config = ConfigDict(from_attributes=True)

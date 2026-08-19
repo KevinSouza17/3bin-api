@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 
-
+# ==================== PRODUTOS ====================
 
 @app.get('/produtos', response_model=list[ProdutoResponse])
 def listar_produtos(db: Session = Depends(get_db)):
@@ -65,46 +65,46 @@ def remover_produto(produto_id: int, db: Session = Depends(get_db)):
     db.commit()
 
 
+# ==================== LIVROS (novo recurso do exercício) ====================
+
+@app.get('/livros', response_model=list[LivroResponse])
+def listar_livros(db: Session = Depends(get_db)):
+    return db.query(LivroDB).all()
 
 
-# @app.get('/livros', response_model=list[LivroResponse])
-# def listar_livros(db: Session = Depends(get_db)):
-#     return db.query(LivroDB).all()
+@app.post('/livros', response_model=LivroResponse, status_code=201)
+def criar_livro(livro: LivroCreate, db: Session = Depends(get_db)):
+    novo_livro = LivroDB(**livro.model_dump())
+    db.add(novo_livro)
+    db.commit()
+    db.refresh(novo_livro)
+    return novo_livro
 
 
-# @app.post('/livros', response_model=LivroResponse, status_code=201)
-# def criar_livro(livro: LivroCreate, db: Session = Depends(get_db)):
-#     novo_livro = LivroDB(**livro.model_dump())
-#     db.add(novo_livro)
-#     db.commit()
-#     db.refresh(novo_livro)
-#     return novo_livro
+@app.get('/livros/{livro_id}', response_model=LivroResponse)
+def obter_livro(livro_id: int, db: Session = Depends(get_db)):
+    livro = db.query(LivroDB).filter(LivroDB.id == livro_id).first()
+    if livro is None:
+        raise HTTPException(status_code=404, detail='Livro não encontrado')
+    return livro
 
 
-# @app.get('/livros/{livro_id}', response_model=LivroResponse)
-# def obter_livro(livro_id: int, db: Session = Depends(get_db)):
-#     livro = db.query(LivroDB).filter(LivroDB.id == livro_id).first()
-#     if livro is None:
-#         raise HTTPException(status_code=404, detail='Livro não encontrado')
-#     return livro
+@app.put('/livros/{livro_id}', response_model=LivroResponse)
+def atualizar_livro(livro_id: int, livro: LivroCreate, db: Session = Depends(get_db)):
+    db_livro = db.query(LivroDB).filter(LivroDB.id == livro_id).first()
+    if db_livro is None:
+        raise HTTPException(status_code=404, detail='Livro não encontrado')
+    for key, value in livro.model_dump().items():
+        setattr(db_livro, key, value)
+    db.commit()
+    db.refresh(db_livro)
+    return db_livro
 
 
-# @app.put('/livros/{livro_id}', response_model=LivroResponse)
-# def atualizar_livro(livro_id: int, livro: LivroCreate, db: Session = Depends(get_db)):
-#     db_livro = db.query(LivroDB).filter(LivroDB.id == livro_id).first()
-#     if db_livro is None:
-#         raise HTTPException(status_code=404, detail='Livro não encontrado')
-#     for key, value in livro.model_dump().items():
-#         setattr(db_livro, key, value)
-#     db.commit()
-#     db.refresh(db_livro)
-#     return db_livro
-
-
-# @app.delete('/livros/{livro_id}', status_code=204)
-# def remover_livro(livro_id: int, db: Session = Depends(get_db)):
-#     livro = db.query(LivroDB).filter(LivroDB.id == livro_id).first()
-#     if livro is None:
-#         raise HTTPException(status_code=404, detail='Livro não encontrado')
-#     db.delete(livro)
-#     db.commit()
+@app.delete('/livros/{livro_id}', status_code=204)
+def remover_livro(livro_id: int, db: Session = Depends(get_db)):
+    livro = db.query(LivroDB).filter(LivroDB.id == livro_id).first()
+    if livro is None:
+        raise HTTPException(status_code=404, detail='Livro não encontrado')
+    db.delete(livro)
+    db.commit()
