@@ -1,0 +1,37 @@
+<!-- livros.html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f5f5f5; margin: 8px 0; padding: 12px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h1>Lista de Livros</h1>
+    <ul id="lista-livros"></ul>
+
+    <script>
+        fetch('http://127.0.0.1:8000/livros')
+            .then(resposta => resposta.json())
+            .then(livros => {
+                const lista = document.getElementById('lista-livros');
+                if (livros.length === 0) {
+                    lista.innerHTML = '<li>Nenhum livro cadastrado ainda.</li>';
+                    return;
+                }
+                livros.forEach(livro => {
+                    const item = document.createElement('li');
+                    item.textContent =
+                        `${livro.titulo} — ${livro.autor} (${livro.ano_publicacao}) — R$ ${livro.preco.toFixed(2)}`;
+                    lista.appendChild(item);
+                });
+            })
+            .catch(erro => console.error('Erro ao buscar livros:', erro));
+    </script>
+</body>
+</html> -->

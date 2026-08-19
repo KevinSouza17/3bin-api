@@ -10,10 +10,8 @@ Base = declarative_base()
 
 # Função de dependência: abre uma sessão por requisição e garante o fechamento
 def get_db():
- db = SessionLocal()
- try:
-  yield db
- finally:
-  db.close()
-
- 
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

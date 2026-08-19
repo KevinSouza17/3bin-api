@@ -27,6 +27,12 @@ use `loja`;
 --
 -- Estrutura para tabela `produtos`
 --
+-- CREATE TABLE `livros` (
+--   `id` int(11) NOT NULL,
+--   `nome` varchar(100) NOT NULL,
+--   `preco` float NOT NULL,
+--   `quantidade` int(11) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `produtos` (
   `id` int(11) NOT NULL,
@@ -38,6 +44,12 @@ CREATE TABLE `produtos` (
 --
 -- Despejando dados para a tabela `produtos`
 --
+-- INSERT INTO `livros` (`id`, `titulo`, `autor`, `ano_publicacao`, `preco`) VALUES
+-- (1, 'string', 0, 0),
+-- (2, 'string', 0, 0),
+-- (3, 'string', 0, 0),
+-- (4, 'lixo', 0.2, 89),
+-- (5, 'lixo', 0.2, 89);
 
 INSERT INTO `produtos` (`id`, `nome`, `preco`, `quantidade`) VALUES
 (1, 'string', 0, 0),
