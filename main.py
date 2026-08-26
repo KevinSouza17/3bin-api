@@ -3,6 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import Base, engine, get_db
 from models import ProdutoDB, LivroDB
+from schemas import ProdutoCreate, ProdutoResponse
+
+app = FastAPI()
+
+Base.metadata.create_all(bind=engine)
+
+@app.on_event("startup")
+def criar_tabelas():
+    Base.metadata.create_all(bind=engine)
+
+# ... endpoints continuam exatamente iguais ...
 from schemas import (
     ProdutoCreate, ProdutoResponse,
     LivroCreate, LivroResponse
