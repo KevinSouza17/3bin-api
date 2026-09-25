@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Float, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 
 from database import Base
 
@@ -13,5 +13,5 @@ class Livro(Base):
     disponivel = Column(Boolean, nullable=False, default=True)
 
 
-# Alias mantido para compatibilidade com o código/testes da versão anterior.
+# Nome alternativo mantido para compatibilidade com versões anteriores do exercício.
 LivroDB = Livro

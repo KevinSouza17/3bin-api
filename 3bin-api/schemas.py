@@ -1,7 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 
-
 class LivroCriacao(BaseModel):
     titulo: str = Field(min_length=1, max_length=150)
     autor: str = Field(min_length=1, max_length=120)
@@ -19,7 +18,7 @@ class LivroResposta(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-# Aliases mantidos para compatibilidade com a nomenclatura anterior.
+# Nomes alternativos mantidos para compatibilidade com o roteiro.
 LivroBase = LivroCriacao
 LivroCreate = LivroCriacao
 LivroResponse = LivroResposta

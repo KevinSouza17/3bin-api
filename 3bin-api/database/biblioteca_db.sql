@@ -1,4 +1,4 @@
--- Banco da API de livros e produtos.
+-- Banco da API de livros.
 CREATE DATABASE IF NOT EXISTS biblioteca_db
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
@@ -12,13 +12,4 @@ CREATE TABLE IF NOT EXISTS livros (
   disponivel BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id),
   INDEX ix_livros_id (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS produtos (
-  id INT NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(100) NOT NULL,
-  preco FLOAT NOT NULL,
-  quantidade INT NOT NULL,
-  PRIMARY KEY (id),
-  INDEX ix_produtos_id (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
